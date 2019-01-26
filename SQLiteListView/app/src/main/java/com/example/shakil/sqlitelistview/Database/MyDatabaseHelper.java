@@ -1,6 +1,8 @@
 package com.example.shakil.sqlitelistview.Database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final String NAME = "Name";
     private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+" ("+ID+" INTEGER PRIMARY KEY, "+NAME+" VARCHAR(30));";
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+    private static final String SHOW_ALL_DATA = "SELECT * FROM " + TABLE_NAME;
 
     private Context context;
 
@@ -43,5 +46,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         catch (Exception e){
             Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public long saveData(String userId, String userName) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ID, userId);
+        contentValues.put(NAME, userName);
+
+        long rowNumber = sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+        return rowNumber;
+    }
+
+    public Cursor showAllData(){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(SHOW_ALL_DATA, null);
+        return cursor;
     }
 }
