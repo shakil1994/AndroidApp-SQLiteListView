@@ -72,8 +72,20 @@ public class MainActivity extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (v.getId() == R.id.btnUpdate){
+                String userId = edtId.getText().toString();
+                String userName = edtName.getText().toString();
 
+                if (v.getId() == R.id.btnUpdate){
+                    Boolean isUpdate = myDatabaseHelper.updateData(userId, userName);
+
+                    if (isUpdate == true){
+                        edtId.setText("");
+                        edtName.setText("");
+                        Toast.makeText(MainActivity.this, "Data is successfully Updated.", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(MainActivity.this, "Data is not updated.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
