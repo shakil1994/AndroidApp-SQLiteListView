@@ -41,18 +41,16 @@ public class MainActivity extends AppCompatActivity {
                 String userId = edtId.getText().toString();
                 String userName = edtName.getText().toString();
 
-                if (v.getId() == R.id.btnSave){
-                    if (userId.equals("") && userName.equals("")){
+                if (v.getId() == R.id.btnSave) {
+                    if (userId.equals("") && userName.equals("")) {
                         Toast.makeText(MainActivity.this, "Please fill up the all information.", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         long rowNumber = myDatabaseHelper.saveData(userId, userName);
-                        if (rowNumber > -1){
+                        if (rowNumber > -1) {
                             Toast.makeText(MainActivity.this, "Data is successfully inserted.", Toast.LENGTH_SHORT).show();
                             edtId.setText("");
                             edtName.setText("");
-                        }
-                        else {
+                        } else {
                             Toast.makeText(MainActivity.this, "Data isn't successfully inserted.", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (v.getId() == R.id.btnShow){
+                if (v.getId() == R.id.btnShow) {
                     startActivity(new Intent(MainActivity.this, ListDataActivity.class));
                 }
             }
@@ -75,15 +73,14 @@ public class MainActivity extends AppCompatActivity {
                 String userId = edtId.getText().toString();
                 String userName = edtName.getText().toString();
 
-                if (v.getId() == R.id.btnUpdate){
+                if (v.getId() == R.id.btnUpdate) {
                     Boolean isUpdate = myDatabaseHelper.updateData(userId, userName);
 
-                    if (isUpdate == true){
+                    if (isUpdate == true) {
                         edtId.setText("");
                         edtName.setText("");
                         Toast.makeText(MainActivity.this, "Data is successfully Updated.", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    } else {
                         Toast.makeText(MainActivity.this, "Data is not updated.", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -93,8 +90,15 @@ public class MainActivity extends AppCompatActivity {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (v.getId() == R.id.btnDelete){
-
+                String userId = edtId.getText().toString();
+                if (v.getId() == R.id.btnDelete) {
+                    int value = myDatabaseHelper.deleteData(userId);
+                    if (value < 0) {
+                        Toast.makeText(MainActivity.this, "Data is not deleted.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        edtId.setText("");
+                        Toast.makeText(MainActivity.this, "Data is successfully deleted.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

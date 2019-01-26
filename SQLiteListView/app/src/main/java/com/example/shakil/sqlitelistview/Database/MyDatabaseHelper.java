@@ -14,7 +14,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     private static final int VERSION_NUMBER = 1;
     private static final String ID = "Id";
     private static final String NAME = "Name";
-    private static final String CREATE_TABLE = "CREATE TABLE "+TABLE_NAME+" ("+ID+" INTEGER PRIMARY KEY, "+NAME+" VARCHAR(30));";
+    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID + " INTEGER PRIMARY KEY, " + NAME + " VARCHAR(30));";
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     private static final String SHOW_ALL_DATA = "SELECT * FROM " + TABLE_NAME;
 
@@ -30,8 +30,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         try {
             db.execSQL(CREATE_TABLE);
             Toast.makeText(context, "onCreate is called", Toast.LENGTH_SHORT).show();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
         }
     }
@@ -42,8 +41,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "onUpgrade is called", Toast.LENGTH_SHORT).show();
             db.execSQL(DROP_TABLE);
             onCreate(db);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(context, "Exception: " + e, Toast.LENGTH_SHORT).show();
         }
     }
@@ -58,18 +56,24 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         return rowNumber;
     }
 
-    public Cursor showAllData(){
+    public Cursor showAllData() {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(SHOW_ALL_DATA, null);
         return cursor;
     }
 
-    public Boolean updateData(String userId, String userName){
+    public Boolean updateData(String userId, String userName) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(ID, userId);
         contentValues.put(NAME, userName);
         sqLiteDatabase.update(TABLE_NAME, contentValues, ID + " = ?", new String[]{userId});
         return true;
+    }
+
+    public int deleteData(String userId) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        int value = sqLiteDatabase.delete(TABLE_NAME, ID + " = ?", new String[]{userId});
+        return value;
     }
 }

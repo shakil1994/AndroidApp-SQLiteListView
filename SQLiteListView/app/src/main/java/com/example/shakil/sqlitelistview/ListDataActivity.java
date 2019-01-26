@@ -33,11 +33,10 @@ public class ListDataActivity extends AppCompatActivity {
         ArrayList<String> listData = new ArrayList<>();
         Cursor cursor = myDatabaseHelper.showAllData();
 
-        if (cursor.getCount() == 0){
+        if (cursor.getCount() == 0) {
             Toast.makeText(this, "No data is found", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            while (cursor.moveToNext()){
+        } else {
+            while (cursor.moveToNext()) {
                 listData.add(cursor.getString(0) + "\t" + cursor.getString(1));
             }
         }
